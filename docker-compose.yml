@@ -1,0 +1,26 @@
+version: '3'
+services:
+
+  demo:
+    build:
+     context: ./docker
+     dockerfile: Dockerfile
+    image: demo-image
+    container_name: demo
+    restart: always
+    ports:
+    - 8081:8081
+    environment:
+    - spring.data.mongodb.uri=mongodb://mongo:27017/client
+    depends_on:
+    - mongo
+     
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    volumes:
+    - /data/db:/data/db
+    ports:
+    - 27017:27017
+    
