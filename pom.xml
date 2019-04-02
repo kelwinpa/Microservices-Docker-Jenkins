@@ -58,17 +58,28 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+
 			<plugin>
 				<groupId>com.spotify</groupId>
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>1.2.0</version>
+				<executions>
+					<execution>
+						<id>default</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+				</executions>
 				<configuration>
-					<forceTags>true</forceTags>
+					<dockerDirectory>docker</dockerDirectory>
+					<serverId>docker-hub</serverId>
+					<registryUrl>https://index.docker.io/v1/</registryUrl>
+					<imageName>stevenxs/microservices-docker-jenkins</imageName>
 					<imageTags>
 						<imageTag>latest</imageTag>
 					</imageTags>
-					<imageName>demo-image</imageName>
-					<dockerDirectory>docker</dockerDirectory>
 					<resources>
 						<resource>
 							<targetPath>/</targetPath>
@@ -76,6 +87,7 @@
 							<include>${project.build.finalName}.jar</include>
 						</resource>
 					</resources>
+					<pushImage>true</pushImage>
 				</configuration>
 			</plugin>
 		</plugins>
